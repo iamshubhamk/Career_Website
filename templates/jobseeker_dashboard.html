@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Seeker Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome, Job Seeker!</h1>
+        <div class="dashboard">
+            <h2>Available Jobs</h2>
+            <ul class="job-list">
+                <li>
+                    <div class="job-info">
+                        <h3>Job Title</h3>
+                        <p>Job Description</p>
+                        <p>Job Location</p>
+                    </div>
+                    <div class="apply-button">
+                        <form action="/apply-job/<job_id>" method="POST">
+                            <button type="submit">Apply Now</button>
+                        </form>
+                    </div>
+                </li>
+                <!-- Repeat this block for each job listing -->
+            </ul>
+        </div>
+        <div class="application-status">
+            <h2>Application Status</h2>
+            <ul class="status-list">
+                <li>
+                    <h3>Job Title</h3>
+                    <p>Status: Pending</p>
+                </li>
+                <!-- Repeat this block for each application status -->
+            </ul>
+        </div>
+        <div class="logout">
+            <a href="/logout">Logout</a>
+        </div>
+    </div>
+</body>
+</html>

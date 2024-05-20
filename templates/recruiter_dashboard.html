@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recruiter Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome, Recruiter!</h1>
+        <div class="dashboard">
+            <div class="job-posting">
+                <h2>Post a New Job</h2>
+                <form action="/post-job" method="POST">
+                    <input type="text" name="title" placeholder="Job Title" required>
+                    <input type="text" name="description" placeholder="Job Description" required>
+                    <input type="text" name="location" placeholder="Job Location" required>
+                    <button type="submit">Post Job</button>
+                </form>
+            </div>
+            <div class="applications">
+                <h2>Applicant List</h2>
+                <ul class="applicant-list">
+                    <li>
+                        <div class="applicant-info">
+                            <h3>Applicant Name</h3>
+                            <p>Applied for Job Title</p>
+                        </div>
+                        <div class="update-status">
+                            <form action="/update-application/<applicant_id>" method="POST">
+                                <select name="status">
+                                    <option value="pending">Pending</option>
+                                    <option value="accepted">Accepted</option>
+                                    <option value="rejected">Rejected</option>
+                                </select>
+                                <button type="submit">Update Status</button>
+                            </form>
+                        </div>
+                    </li>
+                    <!-- Repeat this block for each applicant -->
+                </ul>
+            </div>
+        </div>
+        <div class="logout">
+            <a href="/logout">Logout</a>
+        </div>
+    </div>
+</body>
+</html>

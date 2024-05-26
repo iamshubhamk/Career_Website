@@ -3,43 +3,99 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Job Seeker Dashboard</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Jobseeker Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Welcome, Job Seeker!</h1>
-        <div class="dashboard">
-            <h2>Available Jobs</h2>
-            <ul class="job-list">
-                <li>
-                    <div class="job-info">
-                        <h3>Job Title</h3>
-                        <p>Job Description</p>
-                        <p>Job Location</p>
+    <header>
+        <nav>
+            <a href="{{ url_for('home') }}" class="logo">JobSearch</a>
+            <a href="{{ url_for('application_status') }}" class="btn btn-info">Application Status</a>
+        </nav>
+    </header>
+
+    <main>
+        <h2>Jobseeker Dashboard</h2>
+        <div class="job-container">
+            {% for job in jobs %}
+                <h3>{{ job.title }}</h3>
+                <p>{{ job.description }}</p>
+                {% if job.applied %}
+                    <p>Status: {{ job.status }}</p>
+                {% else %}
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#applyModal" data-job-id="{{ job.id }}">
+                        Apply
+                    </button>
+                {% endif %}
+            {% endfor %}
+        </div>
+
+        <!-- Apply Modal -->
+        <div class="modal fade" id="applyModal" tabindex="-1" role="dialog" aria-labelledby="applyModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="applyModalLabel">Apply for Job</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                     </div>
-                    <div class="apply-button">
-                        <form action="/apply-job/<job_id>" method="POST">
-                            <button type="submit">Apply Now</button>
+                    <div class="modal-body">
+                        <form id="applyForm" method="POST" enctype="multipart/form-data">
+                            <input type="hidden" id="job_id" name="job_id">
+                            <div class="form-group">
+                                <label for="name">Name</label>
+                                <input type="text" class="form-control" id="name" name="name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" class="form-control" id="email" name="email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">Phone Number</label>
+                                <input type="text" class="form-control" id="phone" name="phone" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="resume">Resume (PDF)</label>
+                                <input type="file" class="form-control" id="resume" name="resume" accept="application/pdf" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Submit Application</button>
                         </form>
                     </div>
-                </li>
-                <!-- Repeat this block for each job listing -->
-            </ul>
+                </div>
+            </div>
         </div>
-        <div class="application-status">
-            <h2>Application Status</h2>
-            <ul class="status-list">
-                <li>
-                    <h3>Job Title</h3>
-                    <p>Status: Pending</p>
-                </li>
-                <!-- Repeat this block for each application status -->
-            </ul>
-        </div>
-        <div class="logout">
-            <a href="/logout">Logout</a>
-        </div>
-    </div>
+    </main>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        $('#applyModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
+            var jobId = button.data('job-id');
+            var modal = $(this);
+            modal.find('#job_id').val(jobId);
+        });
+
+        $('#applyForm').on('submit', function(event) {
+            event.preventDefault();
+            var formData = new FormData(this);
+
+            $.ajax({
+                url: '{{ url_for("apply_job") }}',
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    location.reload(); // Reload the page to update the job list
+                },
+                error: function(xhr, status, error) {
+                    alert('Application failed: ' + error);
+                }
+            });
+        });
+    </script>
 </body>
 </html>

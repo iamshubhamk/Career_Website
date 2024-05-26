@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Search Portal</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">JobSearch</div>
+            <div class="nav-buttons">
+                <a href="{{ url_for('login') }}"><button class="login-btn">Login</button></a>
+                <a href="{{ url_for('signup') }}"><button class="signup-btn">Sign Up</button></a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="slides">
+                <div class="slide">Welcome to JobSearch</div>
+                <div class="slide">Find Your Dream Job</div>
+                <div class="slide">Join Us Today</div>
+            </div>
+        </section>
+    </main>
+
+    <script src="{{ url_for('static', filename='scripts.js') }}"></script>
+</body>
+</html>

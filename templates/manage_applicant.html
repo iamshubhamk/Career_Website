@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Applicant</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="{{ url_for('home') }}" class="logo">JobSearch</a>
+        </nav>
+    </header>
+
+    <main>
+        <h2>Manage Applicant</h2>
+        <div class="applicant-details">
+            <p><strong>Name:</strong> {{ applicant.name }}</p>
+            <p><strong>Email:</strong> {{ applicant.email }}</p>
+            <p><strong>Phone:</strong> {{ applicant.phone }}</p>
+            <p><strong>Resume:</strong> <a href="{{ url_for('static', filename='uploads/' + applicant.resume) }}" target="_blank">View Resume</a></p>
+            <p><strong>Current Status:</strong> {{ applicant.status }}</p>
+        </div>
+        <form method="POST" action="{{ url_for('manage_applicant', applicant_id=applicant.id) }}">
+            <label for="status">Update Status:</label>
+            <select id="status" name="status">
+                <option value="shortlisted" {% if applicant.status == 'shortlisted' %}selected{% endif %}>Shortlisted</option>
+                <option value="rejected" {% if applicant.status == 'rejected' %}selected{% endif %}>Rejected</option>
+                <option value="application not seen" {% if applicant.status == 'application not seen' %}selected{% endif %}>Application Not Seen</option>
+            </select>
+            <button type="submit">Update Status</button>
+        </form>
+    </main>
+</body>
+</html>

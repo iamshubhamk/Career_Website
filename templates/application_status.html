@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Application Status</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="{{ url_for('home') }}" class="logo">JobSearch</a>
+            <a href="{{ url_for('jobseeker_dashboard') }}" class="btn btn-info">Dashboard</a>
+        </nav>
+    </header>
+
+    <main>
+        <h2>Application Status</h2>
+        <div class="application-container">
+            {% for application in applications %}
+                <div class="application">
+                    <h3>{{ application.job.title }}</h3>
+                    <p>Status: {{ application.status }}</p>
+                </div>
+            {% endfor %}
+        </div>
+    </main>
+</body>
+</html>
